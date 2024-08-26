@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id String @id @default(cuid())
+
+  title String
+  image String
+
+  releaseDate DateTime  @map("release_date")
+  price       Float
+  rating      Float
+  ageRating   AgeRating @map("age_rating")
+  developer   String
+  publisher   String
+
+  genres    Genre[]
+  platforms Platform[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("game")
+}
+
+enum Platform {
+  PC
+  PlayStation
+  Xbox
+  Nintendo
+}
+
+enum Genre {
+  Action
+  Adventure
+  RPG
+  Horror
+  Shooter
+}
+
+enum AgeRating {
+  E // Everyone
+  E10Plus // Everyone 10+
+  T // Teen
+  M // Mature 17+
+  AO // Adults Only 18+
+}
